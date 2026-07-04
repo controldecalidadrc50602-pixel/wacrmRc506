@@ -446,8 +446,8 @@ function ConversationItem({
     <button
       onClick={handleClick}
       className={cn(
-        "flex w-full items-start gap-3 px-3 py-3 text-left transition-colors hover:bg-muted/50",
-        isActive && "border-l-2 border-primary bg-muted/70"
+        "flex w-full items-start gap-3 px-3 py-3 text-left transition-colors border-b border-border/50 bg-background hover:bg-muted/50",
+        isActive && "border-l-4 border-l-primary bg-primary/5 hover:bg-primary/5"
       )}
     >
       {/* Avatar */}
