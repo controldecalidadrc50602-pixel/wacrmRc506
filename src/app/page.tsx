@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, UsersRound, Zap, ShieldCheck } from 'lucide-react';
+import { MessageSquare, UsersRound, Zap, ShieldCheck, Check } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -86,6 +86,86 @@ export default function LandingPage() {
               Build no-code flows to auto-reply 24/7. Filter leads automatically before your human agents step in.
             </p>
           </div>
+        </div>
+        {/* Pricing Section */}
+        <div className="mt-32 w-full max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Simple, transparent pricing</h2>
+            <p className="text-muted-foreground text-lg">Start for free, upgrade when you need more power.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto text-left">
+            {/* Free Tier */}
+            <div className="p-8 rounded-3xl border border-border bg-card shadow-sm flex flex-col">
+              <h3 className="text-2xl font-semibold mb-2">Starter</h3>
+              <div className="flex items-baseline gap-1 mb-6">
+                <span className="text-4xl font-bold">$0</span>
+                <span className="text-muted-foreground">/ forever</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-green-500" /> 1 Agent Seat</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-green-500" /> 1 WhatsApp Number</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-green-500" /> Basic Shared Inbox</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-green-500" /> Community Support</li>
+              </ul>
+              <Link href="/signup">
+                <Button variant="outline" className="w-full h-12">Get Started</Button>
+              </Link>
+            </div>
+
+            {/* Pro Tier */}
+            <div className="p-8 rounded-3xl border-2 border-primary bg-card shadow-md relative flex flex-col">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
+                Most Popular
+              </div>
+              <h3 className="text-2xl font-semibold mb-2">Pro</h3>
+              <div className="flex items-baseline gap-1 mb-6">
+                <span className="text-4xl font-bold">$49</span>
+                <span className="text-muted-foreground">/ month</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> Unlimited Agent Seats</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> 5 WhatsApp Numbers</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> Advanced AI Automations</li>
+                <li className="flex items-center gap-3"><Check className="h-5 w-5 text-primary" /> Priority Email Support</li>
+              </ul>
+              <Link href="/signup">
+                <Button className="w-full h-12">Upgrade to Pro</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mt-32 mb-20 w-full max-w-3xl mx-auto text-left">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl border border-border bg-card">
+              <h4 className="text-lg font-semibold mb-2">Do I need an official Meta Developer Account?</h4>
+              <p className="text-muted-foreground">Yes. We connect to the official Meta Cloud API to ensure your number is never banned. You will need a valid Facebook Business Manager account.</p>
+            </div>
+            <div className="p-6 rounded-2xl border border-border bg-card">
+              <h4 className="text-lg font-semibold mb-2">Can I use my existing WhatsApp number?</h4>
+              <p className="text-muted-foreground">You can use any phone number that can receive an SMS or voice call for verification. However, it cannot be actively registered on the standard WhatsApp mobile app.</p>
+            </div>
+            <div className="p-6 rounded-2xl border border-border bg-card">
+              <h4 className="text-lg font-semibold mb-2">Are there hidden fees per message?</h4>
+              <p className="text-muted-foreground">We do not charge per message. However, Meta charges a small fee per conversation (24-hour window) depending on your region. The first 1,000 service conversations every month are free from Meta.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <div className="mt-10 mb-32 p-12 rounded-3xl bg-primary/5 border border-primary/20 w-full max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to scale your sales?</h2>
+          <p className="text-xl text-muted-foreground mb-8">Join the platform built for serious WhatsApp operations.</p>
+          <Link href="/signup">
+            <Button size="lg" className="h-14 px-10 text-lg shadow-lg shadow-primary/20">
+              Start your free trial
+            </Button>
+          </Link>
         </div>
       </main>
 
