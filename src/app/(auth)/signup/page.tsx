@@ -146,7 +146,7 @@ function SignupPageInner() {
           <CardDescription className="text-muted-foreground">
             {inviteToken
               ? "Verify your email, then accept the invitation to join your team."
-              : "Get started with WhatCrm Plus"}
+              : "Get started with VCRo Hub"}
           </CardDescription>
         </CardHeader>
         <CardContent>
