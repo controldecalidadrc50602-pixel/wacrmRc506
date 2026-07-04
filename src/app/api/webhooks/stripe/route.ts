@@ -20,46 +20,50 @@ export async function POST(req: Request) {
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
   }
 
-  const session = event.data.object as Stripe.Checkout.Session;
-
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
-        const subscription = await stripe.subscriptions.retrieve(
+        const session = event.data.object as Stripe.Checkout.Session;
+        const subResponse = await stripe.subscriptions.retrieve(
           session.subscription as string
         );
+        // Stripe v22+: retrieve() returns the subscription object directly
+        const sub = subResponse as unknown as Stripe.Subscription;
         const accountId = session.client_reference_id;
 
         if (!accountId) {
           throw new Error('No account_id found in client_reference_id');
         }
 
+        const periodEnd = (sub as any).current_period_end;
+        const periodStart = (sub as any).current_period_start;
+
         await supabaseAdmin.from('account_subscriptions').upsert({
           account_id: accountId,
           stripe_customer_id: session.customer as string,
-          stripe_subscription_id: subscription.id,
-          status: subscription.status,
-          price_id: subscription.items.data[0].price.id,
-          current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-          current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
+          stripe_subscription_id: sub.id,
+          status: sub.status,
+          price_id: sub.items.data[0].price.id,
+          current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+          current_period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
         });
         break;
       }
       
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as Stripe.Subscription;
+        const sub = event.data.object as any;
         
         await supabaseAdmin
           .from('account_subscriptions')
           .update({
-            status: subscription.status,
-            price_id: subscription.items.data[0].price.id,
-            current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
-            current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-            cancel_at_period_end: subscription.cancel_at_period_end,
+            status: sub.status,
+            price_id: sub.items.data[0].price.id,
+            current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
+            current_period_start: sub.current_period_start ? new Date(sub.current_period_start * 1000).toISOString() : null,
+            cancel_at_period_end: sub.cancel_at_period_end,
           })
-          .eq('stripe_subscription_id', subscription.id);
+          .eq('stripe_subscription_id', sub.id);
         break;
       }
     }
