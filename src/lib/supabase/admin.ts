@@ -1,8 +1,25 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Admin client for webhooks and background tasks that need to bypass RLS.
-// NEVER use this client on the client-side or for user-facing requests.
-export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Lazy singleton — only instantiated at runtime, not at build time.
+// This prevents Vercel's "Collecting page data" step from crashing
+// when SUPABASE_SERVICE_ROLE_KEY is not in the build environment.
+let _admin: SupabaseClient | null = null;
+
+function getSupabaseAdmin(): SupabaseClient {
+  if (!_admin) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !key) {
+      throw new Error('Supabase admin env vars are not set');
+    }
+    _admin = createClient(url, key);
+  }
+  return _admin;
+}
+
+// Proxy so existing `supabaseAdmin.from(...)` calls keep working
+export const supabaseAdmin = new Proxy({} as SupabaseClient, {
+  get(_target, prop, receiver) {
+    return Reflect.get(getSupabaseAdmin(), prop, receiver);
+  },
+});
