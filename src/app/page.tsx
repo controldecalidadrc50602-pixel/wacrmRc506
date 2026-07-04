@@ -8,7 +8,7 @@ export default function LandingPage() {
       {/* Navbar */}
       <header className="px-6 lg:px-8 h-16 flex items-center justify-between border-b border-border/40 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <MessageSquare className="h-6 w-6 text-primary" />
+          <img src="/logo.jpg" alt="VCRo Hub Logo" className="h-8 w-8 object-contain rounded-md" />
           <span className="font-bold text-lg tracking-tight">VCRo Hub</span>
         </div>
         <nav className="flex items-center gap-4">
