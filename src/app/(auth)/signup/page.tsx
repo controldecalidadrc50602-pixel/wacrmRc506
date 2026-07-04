@@ -137,7 +137,7 @@ function SignupPageInner() {
                 <UsersRound className="h-6 w-6 text-primary" />
               </div>
             ) : (
-              <img src="/logo.jpg" alt="WhatCrm Plus Logo" className="w-full h-auto" />
+              <img src="/logo.jpg" alt="VCRo Hub Logo" className="w-full h-auto" />
             )}
           </div>
           <CardTitle className="text-xl text-foreground">

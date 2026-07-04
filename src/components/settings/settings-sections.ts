@@ -9,6 +9,7 @@ import {
   Tags,
   User,
   UsersRound,
+  CreditCard,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -31,6 +32,7 @@ export const SETTINGS_SECTIONS = [
   'deals',
   'members',
   'api',
+  'billing',
 ] as const;
 
 export type SettingsSection = (typeof SETTINGS_SECTIONS)[number];
@@ -52,10 +54,11 @@ export const SECTION_META: Record<SettingsSection, SectionMeta> = {
   appearance: { id: 'appearance', label: 'Appearance', icon: Palette, group: 'account' },
   whatsapp: { id: 'whatsapp', label: 'WhatsApp', icon: PlugZap, group: 'workspace' },
   templates: { id: 'templates', label: 'Templates', icon: FileText, group: 'workspace' },
-  fields: { id: 'fields', label: 'Fields & tags', icon: Tags, group: 'workspace' },
-  deals: { id: 'deals', label: 'Deals & currency', icon: Coins, group: 'workspace' },
-  members: { id: 'members', label: 'Team members', icon: UsersRound, group: 'workspace' },
-  api: { id: 'api', label: 'API keys', icon: KeyRound, group: 'workspace' },
+  fields: { id: 'fields', label: 'Fields & Tags', icon: Tags, group: 'workspace' },
+  deals: { id: 'deals', label: 'Pipelines', icon: Coins, group: 'workspace' },
+  members: { id: 'members', label: 'Teammates', icon: UsersRound, group: 'workspace' },
+  api: { id: 'api', label: 'API Keys', icon: KeyRound, group: 'workspace' },
+  billing: { id: 'billing', label: 'Billing & Plans', icon: CreditCard, group: 'workspace' },
 };
 
 export const RAIL_GROUPS: { label: string | null; group: SectionMeta['group'] }[] = [
