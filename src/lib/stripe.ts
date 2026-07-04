@@ -1,9 +1,9 @@
 import Stripe from 'stripe';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2024-04-10',
+  apiVersion: '2026-06-24.dahlia',
   appInfo: {
-    name: 'WhatCrm Plus',
+    name: 'VCRo Hub',
     version: '1.0.0',
   },
 });
