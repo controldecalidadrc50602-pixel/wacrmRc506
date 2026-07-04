@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Stripe Price ID not configured' }, { status: 500 });
     }
 
-    const headerList = headers();
+    const headerList = await headers();
     const origin = headerList.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
     // Check if they already have a stripe customer ID in account_subscriptions

@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'No active subscription found' }, { status: 400 });
     }
 
-    const headerList = headers();
+    const headerList = await headers();
     const origin = headerList.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
     const portalSession = await stripe.billingPortal.sessions.create({
