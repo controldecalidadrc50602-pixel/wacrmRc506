@@ -131,13 +131,13 @@ function SignupPageInner() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md border-border bg-card">
         <CardHeader className="items-center text-center">
-          <div className="mb-4 mx-auto flex h-32 w-56 items-center justify-center overflow-hidden">
+          <div className="mb-4 mx-auto flex w-72 items-center justify-center">
             {inviteToken ? (
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
                 <UsersRound className="h-6 w-6 text-primary" />
               </div>
             ) : (
-              <img src="/logo.jpg" alt="WhatCrm Plus Logo" className="h-full w-full object-contain scale-[1.5]" />
+              <img src="/logo.jpg" alt="WhatCrm Plus Logo" className="w-full h-auto" />
             )}
           </div>
           <CardTitle className="text-xl text-foreground">
