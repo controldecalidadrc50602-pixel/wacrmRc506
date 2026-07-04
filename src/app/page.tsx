@@ -171,6 +171,10 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-border/40 py-8 text-center text-sm text-muted-foreground">
+        <div className="flex justify-center gap-6 mb-4">
+          <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+        </div>
         <p>© {new Date().getFullYear()} VCRo Hub. All rights reserved.</p>
         <p className="mt-2 text-xs opacity-60">Not affiliated with Meta Platforms Inc. or WhatsApp LLC.</p>
       </footer>
