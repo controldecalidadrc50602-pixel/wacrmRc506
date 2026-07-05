@@ -5,7 +5,12 @@ import "../globals.css";
 import { ThemeProvider } from "@/hooks/use-theme";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { locales } from '@/i18n/request';
 import { ThemedToaster } from "@/components/themed-toaster";
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 import {
   DEFAULT_MODE,
   DEFAULT_THEME,
