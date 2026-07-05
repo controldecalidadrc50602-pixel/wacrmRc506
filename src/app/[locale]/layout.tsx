@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
+import "../globals.css";
 import { ThemeProvider } from "@/hooks/use-theme";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { ThemedToaster } from "@/components/themed-toaster";
 import {
   DEFAULT_MODE,
@@ -75,14 +77,19 @@ const THEME_BOOT_SCRIPT = `
 })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  const messages = await getMessages();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       data-theme={DEFAULT_THEME}
       data-mode={DEFAULT_MODE}
       className={`${inter.variable} h-full antialiased`}
@@ -104,8 +111,10 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-background text-foreground font-sans">
         <ThemeProvider>
-          {children}
-          <ThemedToaster />
+          <NextIntlClientProvider messages={messages}>
+            {children}
+            <ThemedToaster />
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

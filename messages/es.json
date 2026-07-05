@@ -1,0 +1,20 @@
+{
+  "Index": {
+    "title": "Construye tu CRM sobre WhatsApp",
+    "description": "VCRo Hub convierte tu API Oficial de WhatsApp Business de Meta en una bandeja de entrada compartida, embudo de ventas y herramienta de automatización.",
+    "getStarted": "Empieza Gratis"
+  },
+  "Onboarding": {
+    "welcome": "¡Bienvenido a VCRo Hub!",
+    "description": "Configuremos tu espacio de trabajo en 2 sencillos pasos.",
+    "step1Title": "Paso 1: Conecta WhatsApp",
+    "step1Desc": "Vincula tus credenciales de la API de Meta para que tu equipo pueda empezar a recibir y enviar mensajes.",
+    "step1Btn": "Conectar WhatsApp Ahora",
+    "step2Title": "Paso 2: Invita a tu Equipo",
+    "step2Desc": "Trae a tus agentes de ventas y soporte a la bandeja de entrada compartida.",
+    "step2Btn": "Invitar Compañeros",
+    "skip": "Saltar por ahora",
+    "next": "Siguiente Paso",
+    "prev": "Paso Anterior"
+  }
+}

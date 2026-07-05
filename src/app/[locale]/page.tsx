@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, UsersRound, Zap, ShieldCheck, Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import LanguageSwitcher from '@/components/ui/language-switcher';
 
 export default function LandingPage() {
+  const t = useTranslations('Index');
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Navbar */}
@@ -12,11 +16,12 @@ export default function LandingPage() {
           <span className="font-bold text-lg tracking-tight">VCRo Hub</span>
         </div>
         <nav className="flex items-center gap-4">
+          <LanguageSwitcher />
           <Link href="/login" className="text-sm font-medium hover:text-primary transition-colors">
             Log in
           </Link>
           <Link href="/signup">
-            <Button size="sm">Get Started</Button>
+            <Button size="sm">{t('getStarted')}</Button>
           </Link>
         </nav>
       </header>
@@ -27,24 +32,24 @@ export default function LandingPage() {
         <div className="max-w-4xl space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
           <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-4">
             <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-            The Ultimate WhatsApp Business API Platform
+            {t('title')}
           </div>
           
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground">
-            Manage your WhatsApp <br className="hidden sm:block" />
+            {t('title')} <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
-              like a true Pro.
+              VCRo Hub
             </span>
           </h1>
           
           <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Stop losing messages. Empower your sales team with a shared inbox, powerful automations, and zero ban risks using the official Meta Cloud API.
+            {t('description')}
           </p>
           
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup">
               <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-base shadow-lg shadow-primary/20">
-                Start for free
+                {t('getStarted')}
               </Button>
             </Link>
             <Link href="/login">

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageSquare, Users, Zap, CheckCircle2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface OnboardingWizardProps {
   onDismiss: () => void;
@@ -13,6 +14,7 @@ interface OnboardingWizardProps {
 export function OnboardingWizard({ onDismiss }: OnboardingWizardProps) {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const t = useTranslations('Onboarding');
 
   const handleConnectWhatsApp = () => {
     router.push('/settings?tab=whatsapp');
@@ -32,9 +34,9 @@ export function OnboardingWizard({ onDismiss }: OnboardingWizardProps) {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
               <Zap className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-3xl font-bold">Welcome to VCRo Hub!</CardTitle>
+            <CardTitle className="text-3xl font-bold">{t('welcome')}</CardTitle>
             <CardDescription className="text-lg mt-2">
-              Let&apos;s get your workspace set up in 2 quick steps.
+              {t('description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-6 px-10">
@@ -45,13 +47,13 @@ export function OnboardingWizard({ onDismiss }: OnboardingWizardProps) {
                 <MessageSquare className="h-5 w-5" />
               </div>
               <div className="flex-1 space-y-1">
-                <h3 className="text-lg font-semibold leading-none">Step 1: Connect WhatsApp</h3>
+                <h3 className="text-lg font-semibold leading-none">{t('step1Title')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Link your official Meta API credentials so your team can start sending and receiving messages.
+                  {t('step1Desc')}
                 </p>
                 {step === 1 && (
                   <Button onClick={handleConnectWhatsApp} className="mt-4 w-full sm:w-auto">
-                    Connect WhatsApp Now
+                    {t('step1Btn')}
                   </Button>
                 )}
               </div>
@@ -64,13 +66,13 @@ export function OnboardingWizard({ onDismiss }: OnboardingWizardProps) {
                 <Users className="h-5 w-5" />
               </div>
               <div className="flex-1 space-y-1">
-                <h3 className="text-lg font-semibold leading-none">Step 2: Invite your Team</h3>
+                <h3 className="text-lg font-semibold leading-none">{t('step2Title')}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Bring your sales and support agents into the shared inbox.
+                  {t('step2Desc')}
                 </p>
                 {step === 2 && (
                   <Button onClick={handleInviteTeam} className="mt-4 w-full sm:w-auto">
-                    Invite Teammates
+                    {t('step2Btn')}
                   </Button>
                 )}
               </div>
@@ -78,16 +80,16 @@ export function OnboardingWizard({ onDismiss }: OnboardingWizardProps) {
           </CardContent>
           <CardFooter className="flex justify-between px-10 pb-10 pt-4">
             <Button variant="ghost" onClick={onDismiss} className="text-muted-foreground">
-              Skip for now
+              {t('skip')}
             </Button>
             {step === 1 && (
               <Button variant="secondary" onClick={() => setStep(2)}>
-                Next Step
+                {t('next')}
               </Button>
             )}
             {step === 2 && (
               <Button variant="secondary" onClick={() => setStep(1)}>
-                Previous Step
+                {t('prev')}
               </Button>
             )}
           </CardFooter>

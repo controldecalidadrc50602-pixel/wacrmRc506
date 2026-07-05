@@ -1,0 +1,20 @@
+{
+  "Index": {
+    "title": "Build your CRM on WhatsApp",
+    "description": "VCRo Hub turns your Meta WhatsApp Business API into a shared inbox, sales pipeline, and automated broadcast tool.",
+    "getStarted": "Get Started Free"
+  },
+  "Onboarding": {
+    "welcome": "Welcome to VCRo Hub!",
+    "description": "Let's get your workspace set up in 2 quick steps.",
+    "step1Title": "Step 1: Connect WhatsApp",
+    "step1Desc": "Link your official Meta API credentials so your team can start sending and receiving messages.",
+    "step1Btn": "Connect WhatsApp Now",
+    "step2Title": "Step 2: Invite your Team",
+    "step2Desc": "Bring your sales and support agents into the shared inbox.",
+    "step2Btn": "Invite Teammates",
+    "skip": "Skip for now",
+    "next": "Next Step",
+    "prev": "Previous Step"
+  }
+}
