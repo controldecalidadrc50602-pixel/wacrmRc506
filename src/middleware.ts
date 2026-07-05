@@ -8,7 +8,7 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale: 'es'
 });
 
-export async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   let supabaseResponse = intlMiddleware(request);
 
   const supabase = createServerClient(
