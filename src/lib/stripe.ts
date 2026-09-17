@@ -14,7 +14,7 @@ export function getStripe(): Stripe {
     _stripe = new Stripe(key, {
       apiVersion: '2026-06-24.dahlia',
       appInfo: {
-        name: 'VCRo Hub',
+        name: 'Venzly',
         version: '1.0.0',
       },
     });

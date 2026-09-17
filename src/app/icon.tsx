@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-// Renders the VCRo Hub logo as the browser tab favicon.
+// Renders the Venzly logo as the browser tab favicon.
 // Next.js renders this at build time and auto-injects <link rel="icon"> into <head>.
 
 export const size = { width: 32, height: 32 };

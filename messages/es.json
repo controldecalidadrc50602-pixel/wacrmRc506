@@ -1,11 +1,11 @@
 {
   "Index": {
     "title": "Construye tu CRM sobre WhatsApp",
-    "description": "VCRo Hub convierte tu API Oficial de WhatsApp Business de Meta en una bandeja de entrada compartida, embudo de ventas y herramienta de automatización.",
+    "description": "Venzly convierte tu API Oficial de WhatsApp Business de Meta en una bandeja de entrada compartida, embudo de ventas y herramienta de automatización.",
     "getStarted": "Empieza Gratis"
   },
   "Onboarding": {
-    "welcome": "¡Bienvenido a VCRo Hub!",
+    "welcome": "¡Bienvenido a Venzly!",
     "description": "Configuremos tu espacio de trabajo en 2 sencillos pasos.",
     "step1Title": "Paso 1: Conecta WhatsApp",
     "step1Desc": "Vincula tus credenciales de la API de Meta para que tu equipo pueda empezar a recibir y enviar mensajes.",

@@ -80,17 +80,19 @@ export default async function middleware(request: NextRequest) {
   // Protected pages - redirect to login if not authenticated
   const protectedPaths = ['/dashboard', '/inbox', '/contacts', '/pipelines', '/broadcasts', '/automations', '/settings']
   if (!user && protectedPaths.some(path => pathWithoutLocale.startsWith(path))) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return withRefreshedCookies(NextResponse.redirect(url))
+    // Demo Bypass: Do not redirect to login
+    // const url = request.nextUrl.clone()
+    // url.pathname = '/login'
+    // return withRefreshedCookies(NextResponse.redirect(url))
   }
 
   // API routes that need auth (not webhooks)
   if (!user && pathWithoutLocale.startsWith('/api/whatsapp/') &&
       !pathWithoutLocale.includes('/webhook')) {
-    return withRefreshedCookies(
-      NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    )
+    // Demo Bypass: Allow API routes for demo
+    // return withRefreshedCookies(
+    //   NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    // )
   }
 
   return supabaseResponse

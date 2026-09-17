@@ -14,7 +14,7 @@
  */
 
 export const THEME_IDS = [
-  "turquoise",
+  "venzly",
   "emerald",
   "cobalt",
   "amber",
@@ -23,7 +23,7 @@ export const THEME_IDS = [
 
 export type ThemeId = (typeof THEME_IDS)[number];
 
-export const DEFAULT_THEME: ThemeId = "turquoise";
+export const DEFAULT_THEME: ThemeId = "venzly";
 
 export const STORAGE_KEY = "wacrm.theme";
 
@@ -68,10 +68,10 @@ export interface ThemeMeta {
 
 export const THEMES: ReadonlyArray<ThemeMeta> = [
   {
-    id: "turquoise",
-    name: "Turquoise",
-    tagline: "Premium, clean, and modern SaaS aesthetic.",
-    swatch: "oklch(0.65 0.16 185)",
+    id: "venzly",
+    name: "Venzly Mint",
+    tagline: "Agile, growth-coded, high-energy operations.",
+    swatch: "oklch(0.71 0.16 144)",
   },
   {
     id: "emerald",

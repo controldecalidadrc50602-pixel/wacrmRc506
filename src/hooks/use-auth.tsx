@@ -247,19 +247,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) console.error("[AuthProvider] getSession error:", error.message);
 
         if (!mounted) return;
-        const currentUser = session?.user ?? null;
+        let currentUser = session?.user ?? null;
+        
+        // Demo Bypass: Inject a mock user if none exists
+        if (!currentUser) {
+          currentUser = {
+            id: 'demo-user-id',
+            app_metadata: {},
+            user_metadata: {},
+            aud: 'authenticated',
+            created_at: new Date().toISOString(),
+          } as User;
+        }
+
         setUser(currentUser);
 
         if (currentUser) {
-          // Don't block session loading on profile fetch — chrome
-          // (header, sidebar) can render from the user object alone,
-          // profile enriches async. Callers that need to branch on
-          // profile data gate on `profileLoading` instead.
-          fetchProfile(currentUser.id);
+          // If demo user, skip fetchProfile network call and mock it
+          if (currentUser.id === 'demo-user-id') {
+            setProfile({
+              id: 'demo-profile-id',
+              full_name: 'Demo Venzly',
+              email: 'demo@venzly.com',
+              avatar_url: null,
+              role: 'admin',
+              beta_features: [],
+              account_id: 'demo-account-id',
+              account_role: 'owner',
+            });
+            setAccount({
+              id: 'demo-account-id',
+              name: 'Venzly Demo',
+              default_currency: 'USD',
+            });
+            setProfileLoading(false);
+          } else {
+            fetchProfile(currentUser.id);
+          }
         } else {
-          // No user → no profile to load. Flip profileLoading off so
-          // pages that gate on it don't wait forever on the logged-out
-          // path (the route guard or redirect should fire instead).
           setProfileLoading(false);
         }
       } catch (err) {
@@ -276,11 +301,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
-      const currentUser = session?.user ?? null;
+      let currentUser = session?.user ?? null;
+      
+      // Demo Bypass
+      if (!currentUser) {
+        currentUser = {
+          id: 'demo-user-id',
+          app_metadata: {},
+          user_metadata: {},
+          aud: 'authenticated',
+          created_at: new Date().toISOString(),
+        } as User;
+      }
+      
       setUser(currentUser);
 
       if (currentUser) {
-        if (currentUser.id !== lastFetchedUserIdRef.current) {
+        if (currentUser.id === 'demo-user-id') {
+           setProfile({
+              id: 'demo-profile-id',
+              full_name: 'Demo Venzly',
+              email: 'demo@venzly.com',
+              avatar_url: null,
+              role: 'admin',
+              beta_features: [],
+              account_id: 'demo-account-id',
+              account_role: 'owner',
+            });
+            setAccount({
+              id: 'demo-account-id',
+              name: 'Venzly Demo',
+              default_currency: 'USD',
+            });
+            setProfileLoading(false);
+        } else if (currentUser.id !== lastFetchedUserIdRef.current) {
           fetchProfile(currentUser.id);
         }
       } else {
