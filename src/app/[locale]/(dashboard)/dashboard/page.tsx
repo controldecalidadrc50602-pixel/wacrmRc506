@@ -167,6 +167,7 @@ export default function DashboardPage() {
               title="Active Conversations"
               value={metrics.activeConversations.current.toLocaleString()}
               icon={MessageSquare}
+              color="blue"
               delta={{
                 sign: metrics.activeConversations.previous,
                 label: deltaLabel(metrics.activeConversations.previous, 'new today vs yesterday'),
@@ -176,6 +177,7 @@ export default function DashboardPage() {
               title="New Contacts Today"
               value={metrics.newContactsToday.current.toLocaleString()}
               icon={UserPlus}
+              color="green"
               delta={{
                 sign:
                   metrics.newContactsToday.current - metrics.newContactsToday.previous,
@@ -189,12 +191,14 @@ export default function DashboardPage() {
               title="Open Deals Value"
               value={formatCurrency(metrics.openDealsValue, defaultCurrency)}
               icon={DollarSign}
+              color="purple"
               subtitle={`${metrics.openDealsCount} open deal${metrics.openDealsCount === 1 ? '' : 's'}`}
             />
             <MetricCard
               title="Messages Sent Today"
               value={metrics.messagesSentToday.current.toLocaleString()}
               icon={Send}
+              color="orange"
               delta={{
                 sign:
                   metrics.messagesSentToday.current - metrics.messagesSentToday.previous,
@@ -206,6 +210,19 @@ export default function DashboardPage() {
             />
           </>
         )}
+      </div>
+
+      {/* Alertas Prioritarias */}
+      <div className="rounded-xl border border-border bg-card p-5 border-t-4 border-t-emerald-500 shadow-[0_-5px_15px_-5px_rgba(16,185,129,0.2)] transition-all duration-300">
+        <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+          <span className="text-red-500">⚠️</span> Alertas Prioritarias
+        </h2>
+        <div className="mt-4 flex items-center gap-2 rounded-lg bg-emerald-500/10 p-4 text-emerald-500 border border-emerald-500/20">
+          <div className="h-4 w-4 rounded-full bg-emerald-500 flex items-center justify-center">
+            <span className="text-[10px] text-white font-bold">✓</span>
+          </div>
+          <p className="text-sm font-medium">No hay alertas críticas operativas o comerciales.</p>
+        </div>
       </div>
 
       {/* Quick actions */}

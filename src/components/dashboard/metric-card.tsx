@@ -19,18 +19,30 @@ interface MetricCardProps {
   }
   /** Used instead of `delta` when the metric has a static subtitle. */
   subtitle?: string
+  color?: 'blue' | 'red' | 'purple' | 'orange' | 'green'
 }
 
-export function MetricCard({ title, value, icon: Icon, delta, subtitle }: MetricCardProps) {
+const colorVariants = {
+  blue: 'border-t-blue-500 shadow-[0_-5px_15px_-5px_rgba(59,130,246,0.3)]',
+  red: 'border-t-red-500 shadow-[0_-5px_15px_-5px_rgba(239,68,68,0.3)]',
+  purple: 'border-t-purple-500 shadow-[0_-5px_15px_-5px_rgba(168,85,247,0.3)]',
+  orange: 'border-t-orange-500 shadow-[0_-5px_15px_-5px_rgba(249,115,22,0.3)]',
+  green: 'border-t-green-500 shadow-[0_-5px_15px_-5px_rgba(34,197,94,0.3)]',
+  default: 'border-t-border'
+}
+
+export function MetricCard({ title, value, icon: Icon, delta, subtitle, color }: MetricCardProps) {
+  const topBorderClass = color ? colorVariants[color] : colorVariants.default
+
   return (
-    <div className="rounded-xl border border-border bg-card p-5">
+    <div className={cn("rounded-xl border border-border bg-card p-5 border-t-4 transition-all duration-300 hover:scale-[1.02]", topBorderClass)}>
       <div className="flex items-start justify-between">
-        <p className="text-sm font-medium text-muted-foreground">{title}</p>
+        <p className="text-xs uppercase tracking-wider font-semibold text-muted-foreground">{title}</p>
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-muted text-muted-foreground">
           <Icon className="h-4 w-4" />
         </div>
       </div>
-      <p className="mt-3 text-[28px] leading-none font-bold tabular-nums text-foreground">
+      <p className="mt-3 text-4xl leading-none font-bold tabular-nums text-foreground">
         {value}
       </p>
       {delta ? <DeltaRow sign={delta.sign} label={delta.label} /> : subtitle ? (
