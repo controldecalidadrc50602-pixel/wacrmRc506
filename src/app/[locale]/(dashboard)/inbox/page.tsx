@@ -29,6 +29,7 @@ export default function InboxPage() {
    * automatically instead of showing the empty center panel.
    */
   const deepLinkConvId = searchParams.get("c");
+  const deepLinkContactId = searchParams.get("contactId");
 
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] =
@@ -429,8 +430,61 @@ export default function InboxPage() {
           }
         }
       }
+
+      // Handle ?contactId=<id> deep link
+      if (
+        deepLinkContactId &&
+        autoSelectedForDeepLinkRef.current !== `contact-${deepLinkContactId}`
+      ) {
+        autoSelectedForDeepLinkRef.current = `contact-${deepLinkContactId}`;
+        const match = loaded.find(
+          (c) => c.contact_id === deepLinkContactId || c.contact?.id === deepLinkContactId
+        );
+        if (match) {
+          setActiveConversation(match);
+          setActiveContact(match.contact ?? null);
+          setMessages([]);
+          router.replace(`/inbox?c=${match.id}`);
+          return;
+        } else {
+          const supabase = createClient();
+          supabase
+            .from("contacts")
+            .select("id, name, account_id")
+            .eq("id", deepLinkContactId)
+            .maybeSingle()
+            .then(async ({ data: contactData }) => {
+              if (!contactData) return;
+              const { data: convData } = await supabase
+                .from("conversations")
+                .select("id")
+                .eq("contact_id", deepLinkContactId)
+                .maybeSingle();
+
+              let convId = convData?.id;
+              if (!convId) {
+                const { data: sessionData } = await supabase.auth.getSession();
+                const userId = sessionData?.session?.user?.id;
+                const { data: newConv } = await supabase
+                  .from("conversations")
+                  .insert({
+                    contact_id: deepLinkContactId,
+                    account_id: contactData.account_id,
+                    user_id: userId,
+                  })
+                  .select("id")
+                  .single();
+                convId = newConv?.id;
+              }
+              if (convId) {
+                await hydrateConversation(convId);
+                router.replace(`/inbox?c=${convId}`);
+              }
+            });
+        }
+      }
     },
-    [deepLinkConvId, activeConversation?.id]
+    [deepLinkConvId, deepLinkContactId, activeConversation?.id, hydrateConversation, router]
   );
 
   const handleSelectConversation = useCallback(

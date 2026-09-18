@@ -166,27 +166,29 @@ export async function POST(request: Request) {
     }
 
     // -------------------------------------------------------------
-    // INTERCEPTOR MULTICANAL (NUEVO)
+    // INTERCEPTOR MULTICANAL (TELEGRAM, ETC)
     // -------------------------------------------------------------
-    // Obtenemos los detalles del contacto para saber su canal
     const { data: convData } = await supabase
       .from('conversations')
-      .select('contacts(id, channel, channel_id, name)')
+      .select('id, contact:contacts(*)')
       .eq('id', conversationId)
       .single()
 
-    const contact = Array.isArray(convData?.contacts) ? convData.contacts[0] : convData?.contacts;
-    
+    const contact = (convData as any)?.contact
+
     if (contact && contact.channel === 'telegram') {
-      const { TelegramProvider } = await import('@/lib/multichannel/providers/telegram');
-      const telegramProvider = new TelegramProvider();
-      
+      const { TelegramProvider } = await import('@/lib/multichannel/providers/telegram')
+      const telegramProvider = new TelegramProvider()
+
       // Enviamos el mensaje por Telegram
-      const tgResponse = await telegramProvider.sendMessage({
-        channelType: 'telegram',
-        channelId: contact.channel_id,
-        name: contact.name
-      }, content_text || '...');
+      const tgResponse = await telegramProvider.sendMessage(
+        {
+          channelType: 'telegram',
+          channelId: contact.channel_id,
+          name: contact.name,
+        },
+        content_text || '...'
+      )
 
       // Guardamos el mensaje saliente en la base de datos
       const { data: msgData, error: msgError } = await supabase
@@ -195,30 +197,37 @@ export async function POST(request: Request) {
           conversation_id: conversationId,
           sender_type: 'agent',
           user_id: user.id,
-          content: content_text,
+          content_type: 'text',
+          content_text: content_text,
           status: 'sent',
           channel: 'telegram',
-          provider_message_id: tgResponse?.result?.message_id?.toString()
+          provider_message_id: tgResponse?.result?.message_id?.toString(),
         })
         .select('id')
-        .single();
+        .single()
 
-      if (msgError) throw msgError;
+      if (msgError) throw msgError
+
+      // Actualizamos la fecha de último mensaje en la conversación
+      await supabase
+        .from('conversations')
+        .update({
+          last_message_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', conversationId)
 
       return NextResponse.json({
         success: true,
         message_id: msgData.id,
-        whatsapp_message_id: tgResponse?.result?.message_id?.toString(),
+        provider_message_id: tgResponse?.result?.message_id?.toString(),
       })
     }
     // -------------------------------------------------------------
     // FIN INTERCEPTOR MULTICANAL
     // -------------------------------------------------------------
 
-    // Delegate to the shared send core (validates, sends to Meta with
-    // phone-variant retry, persists, pauses active flow runs). Its
-    // `SendMessageError` carries a machine code + HTTP status; the
-    // dashboard maps it to the internal `{ error }` shape.
+    // Delegate to the shared send core (WhatsApp)
     try {
       const result = await sendMessageToConversation(supabase, accountId, {
         conversationId,
@@ -247,10 +256,13 @@ export async function POST(request: Request) {
       }
       throw err
     }
-  } catch (error) {
-    console.error('Error in Multichannel send POST:', error)
+  } catch (error: any) {
+    console.error('Error in send POST:', error)
+    const message =
+      error?.message ||
+      (typeof error === 'string' ? error : 'Failed to send message')
     return NextResponse.json(
-      { error: 'Failed to send message' },
+      { error: message },
       { status: 500 }
     )
   }
