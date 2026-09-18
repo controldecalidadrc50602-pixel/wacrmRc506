@@ -12,8 +12,8 @@ export default function LandingPage() {
       {/* Navbar */}
       <header className="px-6 lg:px-8 h-16 flex items-center justify-between border-b border-border/40 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <img src="/logo.jpg" alt="VCRo Hub Logo" className="h-8 w-8 object-contain rounded-md" />
-          <span className="font-bold text-lg tracking-tight">VCRo Hub</span>
+          <img src="/logo.jpg" alt="Venzly Logo" className="h-8 w-8 object-contain rounded-md" />
+          <span className="font-bold text-lg tracking-tight">Venzly</span>
         </div>
         <nav className="flex items-center gap-4">
           <LanguageSwitcher />
@@ -38,7 +38,7 @@ export default function LandingPage() {
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground">
             {t('title')} <br className="hidden sm:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">
-              VCRo Hub
+              Venzly
             </span>
           </h1>
           
@@ -180,7 +180,7 @@ export default function LandingPage() {
           <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
           <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
         </div>
-        <p>© {new Date().getFullYear()} VCRo Hub. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Venzly. All rights reserved.</p>
         <p className="mt-2 text-xs opacity-60">Not affiliated with Meta Platforms Inc. or WhatsApp LLC.</p>
       </footer>
     </div>

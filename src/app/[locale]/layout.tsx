@@ -28,10 +28,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "VCRo Hub",
-    template: "%s — VCRo Hub",
+    default: "Venzly",
+    template: "%s — Venzly",
   },
-  description: "VCRo Hub - Integrated WhatsApp CRM",
+  description: "Venzly - Integrated WhatsApp CRM",
   robots: {
     index: false,
     follow: false,
