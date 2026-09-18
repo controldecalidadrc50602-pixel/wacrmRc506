@@ -32,9 +32,15 @@ export async function POST(req: Request) {
       
       console.log(`[Plataforma Multicanal] Nuevo mensaje de Telegram:`, msg.content);
 
-      // 1. Obtener la cuenta base (Para Venzly Demo asumimos el primer account)
-      const { data: accounts } = await supabase.from('accounts').select('id').limit(1);
-      const accountId = accounts?.[0]?.id;
+      // 1. Obtener la cuenta correcta del usuario activo (Javier Rivero)
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('account_id, user_id')
+        .eq('email', 'controldecalidadrc50602@gmail.com')
+        .limit(1);
+        
+      const accountId = profiles?.[0]?.account_id;
+      const userId = profiles?.[0]?.user_id;
 
       if (!accountId) throw new Error("No default account found");
 
@@ -55,6 +61,7 @@ export async function POST(req: Request) {
           .from('contacts')
           .insert({
             account_id: accountId,
+            user_id: userId,
             name: name,
             phone: `tg_${channelId}`, // fallback para compatibilidad legacy
             channel: 'telegram',
@@ -81,6 +88,7 @@ export async function POST(req: Request) {
           .from('conversations')
           .insert({
             account_id: accountId,
+            user_id: userId,
             contact_id: contact.id,
             status: 'open'
           })
