@@ -82,8 +82,7 @@ export async function POST(req: Request) {
           .insert({
             account_id: accountId,
             contact_id: contact.id,
-            status: 'open',
-            last_message_at: new Date().toISOString()
+            status: 'open'
           })
           .select('id')
           .single();
