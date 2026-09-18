@@ -165,6 +165,56 @@ export async function POST(request: Request) {
       )
     }
 
+    // -------------------------------------------------------------
+    // INTERCEPTOR MULTICANAL (NUEVO)
+    // -------------------------------------------------------------
+    // Obtenemos los detalles del contacto para saber su canal
+    const { data: convData } = await supabase
+      .from('conversations')
+      .select('contacts(id, channel, channel_id, name)')
+      .eq('id', conversationId)
+      .single()
+
+    const contact = Array.isArray(convData?.contacts) ? convData.contacts[0] : convData?.contacts;
+    
+    if (contact && contact.channel === 'telegram') {
+      const { TelegramProvider } = await import('@/lib/multichannel/providers/telegram');
+      const telegramProvider = new TelegramProvider();
+      
+      // Enviamos el mensaje por Telegram
+      const tgResponse = await telegramProvider.sendMessage({
+        channelType: 'telegram',
+        channelId: contact.channel_id,
+        name: contact.name
+      }, content_text || '...');
+
+      // Guardamos el mensaje saliente en la base de datos
+      const { data: msgData, error: msgError } = await supabase
+        .from('messages')
+        .insert({
+          conversation_id: conversationId,
+          sender_type: 'agent',
+          user_id: user.id,
+          content: content_text,
+          status: 'sent',
+          channel: 'telegram',
+          provider_message_id: tgResponse?.result?.message_id?.toString()
+        })
+        .select('id')
+        .single();
+
+      if (msgError) throw msgError;
+
+      return NextResponse.json({
+        success: true,
+        message_id: msgData.id,
+        whatsapp_message_id: tgResponse?.result?.message_id?.toString(),
+      })
+    }
+    // -------------------------------------------------------------
+    // FIN INTERCEPTOR MULTICANAL
+    // -------------------------------------------------------------
+
     // Delegate to the shared send core (validates, sends to Meta with
     // phone-variant retry, persists, pauses active flow runs). Its
     // `SendMessageError` carries a machine code + HTTP status; the
@@ -198,7 +248,7 @@ export async function POST(request: Request) {
       throw err
     }
   } catch (error) {
-    console.error('Error in WhatsApp send POST:', error)
+    console.error('Error in Multichannel send POST:', error)
     return NextResponse.json(
       { error: 'Failed to send message' },
       { status: 500 }
