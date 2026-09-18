@@ -105,7 +105,8 @@ export async function POST(req: Request) {
         .insert({
           conversation_id: conversation.id,
           sender_type: 'customer',
-          content: msg.content,
+          content_type: 'text',
+          content_text: msg.content,
           status: 'received',
           channel: 'telegram',
           provider_message_id: msg.providerMessageId,

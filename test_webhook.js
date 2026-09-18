@@ -14,13 +14,17 @@ async function testWebhook() {
     };
 
     console.log("1. Obteniendo cuenta...");
-    const { data: accounts } = await supabase.from('accounts').select('id').limit(1);
-    const accountId = accounts?.[0]?.id;
-    if (!accountId) throw new Error("No default account found");
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('account_id, user_id')
+        .eq('email', 'controldecalidadrc50602@gmail.com')
+        .limit(1);
+        
+      const accountId = profiles?.[0]?.account_id;
+      const userId = profiles?.[0]?.user_id;
 
-    const { data: profiles } = await supabase.from('profiles').select('id').eq('account_id', accountId).limit(1);
-    const userId = profiles?.[0]?.id;
-    if (!userId) throw new Error("No user found for account");
+    if (!accountId) throw new Error("No default account found");
+    console.log("Account:", accountId, "User:", userId);
 
     console.log("2. Buscando/Creando contacto...");
     const channelId = payload.message.chat.id.toString();
@@ -91,7 +95,7 @@ async function testWebhook() {
       .insert({
         conversation_id: conversation.id,
         sender_type: 'customer',
-        content: payload.message.text,
+        body: payload.message.text,
         status: 'received',
         channel: 'telegram',
         provider_message_id: payload.message.message_id.toString(),
