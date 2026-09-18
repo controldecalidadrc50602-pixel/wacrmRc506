@@ -49,6 +49,7 @@ import {
   Filter,
   X,
   Download,
+  MessageSquare
 } from 'lucide-react';
 import { ContactForm } from '@/components/contacts/contact-form';
 import { ContactDetailView } from '@/components/contacts/contact-detail-view';
@@ -692,23 +693,37 @@ export default function ContactsPage() {
                     })}
                   </TableCell>
                   <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        render={
-                          <Button
-                            variant="ghost"
-                            size="icon-sm"
-                            className="text-muted-foreground hover:text-foreground"
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                        }
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="text-primary hover:bg-primary/10 hover:text-primary transition-colors"
+                        title="Enviar Mensaje"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Redirigir al Inbox y abrir/crear conversacin
+                          window.location.href = `/inbox?contactId=${contact.id}`;
+                        }}
                       >
-                        <MoreHorizontal className="size-4" />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent
-                        align="end"
-                        className="bg-popover border-border"
-                      >
+                        <MessageSquare className="size-4" />
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          render={
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              className="text-muted-foreground hover:text-foreground"
+                              onClick={(e) => e.stopPropagation()}
+                            />
+                          }
+                        >
+                          <MoreHorizontal className="size-4" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          align="end"
+                          className="bg-popover border-border"
+                        >
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();
