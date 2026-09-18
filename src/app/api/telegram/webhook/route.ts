@@ -56,10 +56,9 @@ export async function POST(req: Request) {
           .insert({
             account_id: accountId,
             name: name,
-            phone_number: `tg_${channelId}`, // fallback para compatibilidad legacy
+            phone: `tg_${channelId}`, // fallback para compatibilidad legacy
             channel: 'telegram',
             channel_id: channelId,
-            status: 'active'
           })
           .select('id')
           .single();
