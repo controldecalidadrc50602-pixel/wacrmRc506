@@ -107,7 +107,7 @@ export async function POST(req: Request) {
           sender_type: 'customer',
           content_type: 'text',
           content_text: msg.content,
-          status: 'received',
+          status: 'delivered',
           channel: 'telegram',
           provider_message_id: msg.providerMessageId,
           raw_metadata: payload

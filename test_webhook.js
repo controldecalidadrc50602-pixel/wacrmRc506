@@ -95,8 +95,9 @@ async function testWebhook() {
       .insert({
         conversation_id: conversation.id,
         sender_type: 'customer',
-        body: payload.message.text,
-        status: 'received',
+        content_type: 'text',
+        content_text: payload.message.text,
+        status: 'delivered',
         channel: 'telegram',
         provider_message_id: payload.message.message_id.toString(),
         raw_metadata: payload
